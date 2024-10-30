@@ -1,0 +1,192 @@
+
+    
+
+
+
+
+
+
+    <!DOCTYPE html>
+    <html lang="fr">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Niveau 1 - Quiz sur l'Histoire du Prophète Mohamed</title>
+    </head>
+    
+        <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            color: #333;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 20px;
+            background: #fff;
+            border-radius: 8px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+        }
+        h1 { text-align: center; color: #007BFF; }
+        h2 { margin-bottom: 20px; }
+        #options { display: flex; flex-direction: column; }
+        .option {
+            background: #007BFF;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            padding: 15px;
+            margin: 10px 0;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+        .option:hover { background: #0056b3; }
+        .hidden { display: none; }
+        #nextButton, #retryButton {
+            margin-top: 20px;
+            background: #17a2b8;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            padding: 10px 20px;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+        #nextButton:hover, #retryButton:hover { background: #138496; }
+        #result {
+            text-align: center;
+            font-size: 1.2em;
+            margin-top: 20px;
+        }
+    
+    </style>
+    <body>
+        <div class="container">
+            <h1>المستوى الثالث</h1>
+            <div id="questionContainer">
+                <h2 id="question"></h2>
+                <div id="options"></div>
+            </div>
+            <button id="nextButton" class="hidden">Suivant</button>
+            <div id="result" class="hidden"></div>
+            <button id="retryButton" class="hidden">Réessayer</button>
+            <li><a href="cer.html"> <button id="nextLevelButton" class="hidden">felisation</button></a></li> 
+        </div>
+        <script>
+          const questions = [
+  
+    { question: "لماذا يُعتبر الأقصى أولى القبلتين؟", options: ["لأنه بني أولًا", "لأنه شهد الإسراء والمعراج", "لأنه يُستقبل فيه الصلاة الآن", "لأنه يعتبر مقدسًا في عدة ديانات"], answer: "لأنه شهد الإسراء والمعراج" },
+    { question: "ما هو اسم السور الذي يتحدث عن الإسراء والمعراج؟", options: ["سورة النور", "سورة البقرة", "سورة الإسراء", "سورة الكهف"], answer: "سورة الإسراء" },
+    { question: "ما هي المناسبات الدينية التي يتم الاحتفال بها في الأقصى؟", options: ["عيد الأضحى وعيد الفطر", "عيد الفصح", "عيد الميلاد", "رأس السنة"], answer: "عيد الأضحى وعيد الفطر" },
+    { question: "ما هو مصطلح 'الهيكل' في السياق اليهودي؟", options: ["معبد يهودي قديم يعتقد أنه كان في موقع الأقصى", "نصوص دينية يهودية", "احتفالات دينية خاصة", "حديقة تاريخية"], answer: "معبد يهودي قديم يعتقد أنه كان في موقع الأقصى" },
+    { question: "كيف يُعتبر الأقصى رمزًا للهوية الفلسطينية؟", options: ["يمثل تاريخ الفلسطينيين وثقافتهم", "مكان للتسوق", "معلم غير معروف", "مكان للاحتفالات الثقافية فقط"], answer: "يمثل تاريخ الفلسطينيين وثقافتهم" },
+    { question: "ما هو دور الأوقاف الإسلامية في حماية المسجد الأقصى؟", options: ["تدير شؤونه وتعمل على حمايته", "تغلقه أمام المصلين", "تعمل على تهجيره", "تروج للسياحة فقط"], answer: "تدير شؤونه وتعمل على حمايته" },
+    { question: "ما هي آثار الاحتلال على الأقصى؟", options: ["زيادة عدد الزوار", "فرض قيود على دخول المصلين", "تعزيز الأمان في المنطقة", "تطوير المنطقة المحيطة"], answer: "فرض قيود على دخول المصلين" },
+    { question: "كيف يتفاعل الفلسطينيون مع المسجد الأقصى؟", options: ["يزورونه بانتظام ويعتنون به", "يبتعدون عنه", "يعتبرونه مكانًا عاديًا", "لا يهتمون به"], answer: "يزورونه بانتظام ويعتنون به" },
+    { question: "ما هي الأنشطة الثقافية التي تُقام في الأقصى؟", options: ["ورش عمل ومحاضرات", "حفلات موسيقية", "مهرجانات غنائية", "أنشطة رياضية"], answer: "ورش عمل ومحاضرات" },
+    { question: "ما هي الخطط الإسرائيلية لتقسيم الأقصى؟", options: ["تقسيم أوقات الصلاة بين المسلمين واليهود", "بناء أسواق حول الأقصى", "زيادة عدد الزوار", "تحسين البنية التحتية"], answer: "تقسيم أوقات الصلاة بين المسلمين واليهود" },
+    { question: "كيف يُعتبر الأقصى جزءًا من الذاكرة الجمعية للفلسطينيين؟", options: ["رمز لفخرهم وهويتهم الثقافية", "معلم غير معروف", "مكان للترفيه فقط", "لا علاقة له بالهوية"], answer: "رمز لفخرهم وهويتهم الثقافية" },
+    { question: "ما هو الدور التاريخي للأقصى في الصراع الفلسطيني-الإسرائيلي؟", options: ["نقطة صراع رئيسية", "مكان للزوار فقط", "ليس له تأثير", "معلم تاريخي فقط"], answer: "نقطة صراع رئيسية" },
+    { question: "كيف يتم تدريس تاريخ الأقصى في المدارس الفلسطينية؟", options: ["ضمن المناهج الدراسية", "يُعتبر موضوع غير مهم", "يُدرس فقط في الجامعات", "يُهمل تمامًا"], answer: "ضمن المناهج الدراسية" },
+    { question: "ما هي المناسبات الدينية التي شهدت اعتداءات على الأقصى؟", options: ["خلال شهر رمضان وأيام الجمع", "عيد الفطر", "الأعياد المسيحية", "رأس السنة الميلادية"], answer: "خلال شهر رمضان وأيام الجمع" },
+    { question: "ما هو موقف الأزهر من الاعتداءات على الأقصى؟", options: ["يدين الاعتداءات ويطالب بحمايته", "يؤيد الاحتلال", "لا يبدي أي موقف", "يدعو للاعتداءات"], answer: "يدين الاعتداءات ويطالب بحمايته" },
+    { question: "كيف تُعتبر القدس رمزًا للإسلام والمسلمين؟", options: ["مركز ديني وثقافي مهم", "مدينة عادية", "ليس لها أهمية", "مكان للسياحة فقط"], answer: "مركز ديني وثقافي مهم" },
+    { question: "ما هو تاريخ بناء المسجد الأقصى؟", options: ["بُني في القرن السابع الميلادي", "بُني في القرن الثامن عشر", "لا يوجد تاريخ محدد", "بُني في القرن العشرين"], answer: "بُني في القرن السابع الميلادي" },
+    { question: "كيف يتفاعل الفلسطينيون مع الأعياد الدينية في الأقصى؟", options: ["يزورونه لأداء الصلوات", "لا يحتفلون بها", "يقضونها في المنازل فقط", "يذهبون للاحتفالات الخارجية"], answer: "يزورونه لأداء الصلوات" },
+    { question: "ما هي الكتب التاريخية التي تناولت المسجد الأقصى؟", options: ["كتب تاريخية تتحدث عن الحضارة الإسلامية", "كتب أدبية", "كتب علمية", "كتب خيالية"], answer: "كتب تاريخية تتحدث عن الحضارة الإسلامية" },
+    { question: "كيف تؤثر الأحداث السياسية على أداء الشعائر في الأقصى؟", options: ["تساهم في زيادة عدد الزوار", "تؤدي إلى فرض قيود على الدخول والصلاة", "تُحسن الأوضاع الأمنية", "تُشجع على الاحتفالات الدينية"], answer: "تؤدي إلى فرض قيود على الدخول والصلاة" },
+    { question: "ما هو دور الشبان المقدسيين في الدفاع عن الأقصى؟", options: ["يتجاهلون الأحداث", "يقومون بحماية الموقع ومساعدة المصلين", "لا يؤثرون على الوضع", "يساهمون في تهجير الفلسطينيين"], answer: "يقومون بحماية الموقع ومساعدة المصلين" },
+    { question: "ما هي أهم المحاضرات التي تُعقد في الأقصى؟", options: ["محاضرات حول السياحة فقط", "محاضرات دينية وثقافية", "محاضرات علمية غير مرتبطة بالدين", "محاضرات عن الفنون"], answer: "محاضرات دينية وثقافية" },
+    { question: "كيف يُعتبر الأقصى مركزًا للأبحاث والدراسات؟", options: ["لا يُعتبر مكانًا للدراسة", "تُعقد فيه دورات دراسية عن التاريخ والدين", "يُستخدم فقط كموقع سياحي", "يُعتبر مكانًا للاحتفالات الثقافية"], answer: "تُعقد فيه دورات دراسية عن التاريخ والدين" },
+    { question: "ما هو مصير الأقصى في حال تم تقسيمه؟", options: ["سيظل مفتوحًا للجميع", "سيزيد التوتر والصراع حوله", "سيتم تطويره كموقع سياحي", "ستتحسن الأوضاع الأمنية"], answer: "سيزيد التوتر والصراع حوله" },
+    { question: "كيف تنظم الفعاليات الرياضية في الأقصى؟", options: ["لا تُنظم أي فعاليات رياضية", "تُنظم فعاليات رياضية محلية", "تُنظم مسابقات دولية", "تُستخدم لأغراض تجارية"], answer: "تُنظم فعاليات رياضية محلية" },
+    { question: "ما هو دور وسائل التواصل الاجتماعي في دعم الأقصى؟", options: ["لا تأثير لها", "تُستخدم لنشر الوعي والدعوة لحماية الأقصى", "تُعتبر وسيلة ترفيه فقط", "تُستخدم لتقليل الزيارات"], answer: "تُستخدم لنشر الوعي والدعوة لحماية الأقصى" },
+    { question: "ما هي أغاني المقاومة المرتبطة بالأقصى؟", options: ["أغاني رومانسية", "أغاني وطنية تتحدث عن القدس والأقصى", "أغاني تجارية", "أغاني عن الحياة اليومية فقط"], answer: "أغاني وطنية تتحدث عن القدس والأقصى" },
+    { question: "كيف يتم إعداد الشباب لزيارة الأقصى؟", options: ["من خلال التعليم والتوعية", "لا يُعطى أهمية لذلك", "من خلال البرامج السياحية", "من خلال الأنشطة الرياضية فقط"], answer: "من خلال التعليم والتوعية" },
+    { question: "ما هو دور المجتمع المدني في حماية الأقصى؟", options: ["لا دور له", "يُعزز الوعي ويقوم بالأنشطة الداعمة", "يساهم في زيادة الاحتلال", "يُستخدم لأغراض سياسية فقط"], answer: "يُعزز الوعي ويقوم بالأنشطة الداعمة" },
+    { question: "كيف يُعتبر الأقصى جزءًا من الهوية الإسلامية؟", options: ["رمز مهم في الدين الإسلامي", "ليس له علاقة بالإسلام", "معلم سياحي فقط", "يُعتبر مكان للاحتفالات"], answer: "رمز مهم في الدين الإسلامي" },
+    { question: "ما هي التداعيات النفسية للاحتلال على المصلين في الأقصى؟", options: ["زيادة الشعور بالأمان", "تأثيرات سلبية مثل الخوف والقلق", "تحسين الحالة النفسية", "لا تأثير لها"], answer: "تأثيرات سلبية مثل الخوف والقلق" },
+    { question: "كيف يؤثر الدعم الدولي على قضية الأقصى؟", options: ["يساهم في تعزيز حقوق الفلسطينيين", "لا يؤثر بشكل ملحوظ", "يؤدي إلى تعزيز الاحتلال", "يؤثر فقط على السياحة"], answer: "يساهم في تعزيز حقوق الفلسطينيين" },
+    { question: "ما هو تأثير الأحداث الحالية على الأقصى؟", options: ["زيادة الزوار", "زيادة القيود والاعتداءات", "تحسين الأوضاع", "لا تأثير لها"], answer: "زيادة القيود والاعتداءات" },
+    { question: "كيف يمكن الحفاظ على الأقصى؟", options: ["الدعوة للتوعية والدعم", "تركه للإهمال", "السماح للاحتلال بالتوسع", "إهمال القضايا الدينية"], answer: "الدعوة للتوعية والدعم" },
+    { question: "ما هو دور التعليم في تعزيز معرفة الأقصى؟", options: ["يُعتبر موضوعًا غير مهم", "يُعزز الوعي والمعرفة حول الأقصى", "يُدرّس فقط في الجامعات", "لا يُعتبر جزءًا من التعليم"], answer: "يُعزز الوعي والمعرفة حول الأقصى" },
+    { question: "ما هي وسائل الدفاع عن الأقصى في المحافل الدولية؟", options: ["لا توجد وسائل", "التظاهرات والبيانات", "تقديم الشكاوى فقط", "التعاون مع الاحتلال"], answer: "التظاهرات والبيانات" },
+    { question: "كيف يساهم الفن في تعزيز قضية الأقصى؟", options: ["يساهم في نشر الوعي والثقافة", "لا علاقة له بالقضية", "يُعتبر وسيلة ترفيهية فقط", "يؤدي إلى زيادة الاحتلال"], answer: "يساهم في نشر الوعي والثقافة" },
+    { question: "ما هو الدور الذي تلعبه الصحافة في توثيق أحداث الأقصى؟", options: ["لا تلعب أي دور", "تسجل الأحداث وتسلط الضوء على القضايا", "تعمل على تعزيز الاحتلال", "تقتصر على الأخبار الرياضية"], answer: "تسجل الأحداث وتسلط الضوء على القضايا" },
+    { question: "كيف يمكن للزوار دعم الأقصى أثناء زيارتهم؟", options: ["بتجاهله", "من خلال التعرف عليه والمشاركة في الأنشطة", "بالسياحة فقط", "بزيارة معالم أخرى فقط"], answer: "من خلال التعرف عليه والمشاركة في الأنشطة" },
+];
+            let currentQuestionIndex = 0;
+            let score = 0;
+    
+            function displayQuestion() {
+                const question = questions[currentQuestionIndex];
+                document.getElementById('question').innerText = question.question;
+                const optionsContainer = document.getElementById('options');
+                optionsContainer.innerHTML = '';
+    
+                question.options.forEach(option => {
+                    const button = document.createElement('button');
+                    button.innerText = option;
+                    button.classList.add('option');
+                    button.onclick = () => selectOption(option);
+                    optionsContainer.appendChild(button);
+                });
+            }
+    
+            function selectOption(selectedOption) {
+                const question = questions[currentQuestionIndex];
+                if (selectedOption === question.answer) {
+                    score++;
+                }
+                document.getElementById('nextButton').classList.remove('hidden');
+                document.getElementById('options').classList.add('hidden');
+            }
+    
+            document.getElementById('nextButton').onclick = () => {
+                currentQuestionIndex++;
+                if (currentQuestionIndex < questions.length) {
+                    displayQuestion();
+                    document.getElementById('nextButton').classList.add('hidden');
+                    document.getElementById('options').classList.remove('hidden');
+                } else {
+                    showResult();
+                }
+            };
+    
+            function showResult() {
+                document.getElementById('questionContainer').classList.add('hidden');
+                const resultContainer = document.getElementById('result');
+                resultContainer.classList.remove('hidden');
+                if (score > 30) {
+                    resultContainer.innerText = `Bravo, vous avez gagné ! Votre score est ${score} sur ${questions.length}.`;
+                    document.getElementById('nextLevelButton').classList.remove('hidden');
+                } else {
+                    resultContainer.innerText = `Désolé, vous n'avez pas réussi. Votre score est ${score} sur ${questions.length}.`;
+                    document.getElementById('retryButton').classList.remove('hidden');
+                }
+                document.getElementById('nextButton').classList.add('hidden');
+            }
+    
+            // Fonction pour le bouton Réessayer
+            document.getElementById('retryButton').onclick = () => {
+                currentQuestionIndex = 0;
+                score = 0;
+                displayQuestion();
+                document.getElementById('result').classList.add('hidden');
+                document.getElementById('retryButton').classList.add('hidden');
+                document.getElementById('questionContainer').classList.remove('hidden');
+            };
+    
+            // Fonction pour le bouton Passer au niveau suivant
+            document.getElementById('nextLevelButton').onclick = () => {
+                window.location.href = "niveau2.html"; // URL du niveau suivant
+            };
+    
+            displayQuestion();
+        </script>
+    </body>
+    </html>
+    

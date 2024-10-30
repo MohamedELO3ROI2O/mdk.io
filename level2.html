@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Niveau 1 - Quiz sur l'Histoire du Prophète Mohamed</title>
+</head>
+
+    <style>
+    body {
+        font-family: Arial, sans-serif;
+        background-color: #f4f4f4;
+        color: #333;
+        margin: 0;
+        padding: 0;
+    }
+    .container {
+        max-width: 800px;
+        margin: 50px auto;
+        padding: 20px;
+        background: #fff;
+        border-radius: 8px;
+        box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+    }
+    h1 { text-align: center; color: #007BFF; }
+    h2 { margin-bottom: 20px; }
+    #options { display: flex; flex-direction: column; }
+    .option {
+        background: #007BFF;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        padding: 15px;
+        margin: 10px 0;
+        cursor: pointer;
+        transition: background 0.3s;
+    }
+    .option:hover { background: #0056b3; }
+    .hidden { display: none; }
+    #nextButton, #retryButton {
+        margin-top: 20px;
+        background: #17a2b8;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        padding: 10px 20px;
+        cursor: pointer;
+        transition: background 0.3s;
+    }
+    #nextButton:hover, #retryButton:hover { background: #138496; }
+    #result {
+        text-align: center;
+        font-size: 1.2em;
+        margin-top: 20px;
+    }
+
+</style>
+<body>
+    <div class="container">
+        <h1>المستوى الثاني </h1>
+        <div id="questionContainer">
+            <h2 id="question"></h2>
+            <div id="options"></div>
+        </div>
+        <button id="nextButton" class="hidden">Suivant</button>
+        <div id="result" class="hidden"></div>
+        <button id="retryButton" class="hidden">Réessayer</button>
+        <li><a href="level3.html"> <button id="nextLevelButton" class="hidden">Passer au niveau suivant</button></a></li> 
+    </div>
+    <script>
+        const questions = [
+    { question: "في أي عام حدثت النكبة الفلسطينية؟", options: ["1947", "1948", "1967", "1973"], answer: "1948" },
+    { question: "ما اسم الحرب التي دارت بين إسرائيل والدول العربية في عام 1967؟", options: ["حرب الأيام الستة", "حرب أكتوبر", "حرب لبنان", "حرب الاستنزاف"], answer: "حرب الأيام الستة" },
+    { question: "من هو القائد المصري الذي خاض حرب 1973؟", options: ["أنور السادات", "جمال عبد الناصر", "حسني مبارك", "أحمد شفيق"], answer: "أنور السادات" },
+    { question: "متى اندلعت الانتفاضة الفلسطينية الأولى؟", options: ["1987", "1993", "2000", "2005"], answer: "1987" },
+    { question: "ماذا يعني مصطلح 'النكسة' في التاريخ الفلسطيني؟", options: ["حرب 1973", "حرب 1967", "الانتفاضة الثانية", "اتفاقيات أوسلو"], answer: "حرب 1967" },
+    { question: "من كان رئيس الوزراء الإسرائيلي خلال حرب 1967؟", options: ["ليفي إشكول", "غولدا مئير", "يتسحاق رابين", "بنيامين نتنياهو"], answer: "ليفي إشكول" },
+    { question: "متى وقع اتفاق كامب ديفيد بين مصر وإسرائيل؟", options: ["1975", "1978", "1980", "1990"], answer: "1978" },
+    { question: "متى تم توقيع اتفاقية وادي عربة بين الأردن وإسرائيل؟", options: ["1994", "1991", "1989", "2000"], answer: "1994" },
+    { question: "من هو الزعيم الفلسطيني الذي ألقى خطابًا في الأمم المتحدة عام 1974؟", options: ["ياسر عرفات", "محمود عباس", "أحمد الشقيري", "إسماعيل هنية"], answer: "ياسر عرفات" },
+    { question: "ما هو الاتفاق الذي أنهى الانتفاضة الفلسطينية الأولى؟", options: ["اتفاق أوسلو", "اتفاق طابا", "اتفاق وادي عربة", "اتفاق مدريد"], answer: "اتفاق أوسلو" },
+    { question: "من هو القائد العسكري الذي قاد المقاومة في غزة خلال حرب 2008؟", options: ["محمد الضيف", "إسماعيل هنية", "خالد مشعل", "يحيى السنوار"], answer: "محمد الضيف" },
+    { question: "متى أُعلن عن تأسيس منظمة التحرير الفلسطينية؟", options: ["1964", "1967", "1970", "1973"], answer: "1964" },
+    { question: "أين وقع مؤتمر مدريد للسلام؟", options: ["في مدريد", "في واشنطن", "في باريس", "في لندن"], answer: "في مدريد" },
+    { question: "ما هو السبب المباشر لاندلاع الانتفاضة الثانية؟", options: ["زيارة أرييل شارون للأقصى", "حرب لبنان", "مقتل ياسر عرفات", "اتفاقيات أوسلو"], answer: "زيارة أرييل شارون للأقصى" },
+    { question: "كم استمرت حرب الأيام الستة؟", options: ["3 أيام", "6 أيام", "10 أيام", "12 يومًا"], answer: "6 أيام" },
+    { question: "متى تم تأسيس حركة فتح؟", options: ["1965", "1967", "1970", "1973"], answer: "1965" },
+    { question: "من هو الزعيم العربي الذي قاد الوفد الفلسطيني في اتفاقية أوسلو؟", options: ["محمود عباس", "ياسر عرفات", "حسني مبارك", "الملك حسين"], answer: "محمود عباس" },
+    { question: "متى بدأ الاحتلال الإسرائيلي للضفة الغربية وغزة؟", options: ["1948", "1967", "1973", "1982"], answer: "1967" },
+    { question: "ما هو المطار الذي أُنشئ في غزة وتم تدميره لاحقًا؟", options: ["مطار غزة الدولي", "مطار الشارقة", "مطار الملك عبد العزيز", "مطار القاهرة"], answer: "مطار غزة الدولي" },
+    { question: "في أي عام تم اغتيال الشيخ أحمد ياسين؟", options: ["2004", "2005", "2006", "2007"], answer: "2004" },
+    { question: "ما هو اتفاق أوسلو الثاني؟", options: ["اتفاقية سلام مع مصر", "اتفاقية تنص على الحكم الذاتي", "اتفاقية مع الأردن", "اتفاقية تعيد الجولان"], answer: "اتفاقية تنص على الحكم الذاتي" },
+    { question: "كم عدد الفلسطينيين الذين هجّروا من أراضيهم عام 1948؟", options: ["300,000", "700,000", "1,000,000", "500,000"], answer: "700,000" },
+    { question: "ما هي اتفاقية مدريد للسلام؟", options: ["اتفاقية بين إسرائيل ومصر", "مؤتمر سلام بين العرب وإسرائيل", "اتفاقية بين الفلسطينيين والأردنيين", "اتفاقية سلام شامل"], answer: "مؤتمر سلام بين العرب وإسرائيل" },
+    { question: "من هو مؤسس حركة الجهاد الإسلامي؟", options: ["رمضان شلح", "أحمد ياسين", "عبد الله الشامي", "ياسر عرفات"], answer: "عبد الله الشامي" },
+    { question: "من هو رئيس الوزراء الفلسطيني الذي وقع على اتفاقية باريس الاقتصادية؟", options: ["سلام فياض", "محمود عباس", "أحمد قريع", "إسماعيل هنية"], answer: "أحمد قريع" },
+    { question: "ما هو الدور الذي قامت به قوات الأمم المتحدة في غزة عام 1956؟", options: ["الإغاثة الإنسانية", "القتال ضد إسرائيل", "الإشراف على الانتخابات", "تأمين الحدود"], answer: "الإغاثة الإنسانية" },
+    { question: "ما هي مدينة يافا مشهورة بها؟", options: ["صناعة الزهور", "السياحة التاريخية", "الزراعة", "الصيد"], answer: "صناعة الزهور" },
+    { question: "من هو القائد الفلسطيني الذي اغتيل في تونس عام 1988؟", options: ["ياسر عرفات", "خليل الوزير", "أبو جهاد", "سلام فياض"], answer: "خليل الوزير" },
+    { question: "من هو الكاتب الفلسطيني الذي كتب عن النكبة في رواياته؟", options: ["غسان كنفاني", "محمود درويش", "إبراهيم نصر الله", "توفيق زياد"], answer: "غسان كنفاني" },
+    { question: "متى تم بناء جدار الفصل العنصري في الضفة الغربية؟", options: ["1995", "2000", "2002", "2005"], answer: "2002" },
+    { question: "من هو القائد الفلسطيني الذي قاد معركة الكرامة؟", options: ["ياسر عرفات", "أحمد جبريل", "أبو مازن", "صلاح الدين"], answer: "ياسر عرفات" },
+    { question: "ما هو الجناح العسكري لحركة فتح؟", options: ["كتائب الأقصى", "القسام", "الجهاد", "شهداء الأقصى"], answer: "كتائب الأقصى" },
+    { question: "ما هو المبدأ الرئيسي لاتفاقية كامب ديفيد بين مصر وإسرائيل؟", options: ["السلام مقابل الأرض", "تبادل الأسرى", "حكم ذاتي للفلسطينيين", "وقف إطلاق النار"], answer: "السلام مقابل الأرض" },
+    { question: "من هو القائد الإسرائيلي الذي ألقى خطابًا في الحرم القدسي؟", options: ["إيهود باراك", "أرييل شارون", "شيمون بيريز", "بنيامين نتنياهو"], answer: "أرييل شارون" },
+    { question: "ما هو مصطلح 'التوطين' في سياق القضية الفلسطينية؟", options: ["نقل الفلسطينيين إلى الخارج", "إعادة توطين اللاجئين", "بناء مستوطنات جديدة", "تدمير القرى"], answer: "إعادة توطين اللاجئين" },
+    { question: "ما هي المقاومة الشعبية في فلسطين؟", options: ["مقاومة مسلحة", "حركات غير عنيفة", "تدخل عسكري", "تحركات سياسية"], answer: "حركات غير عنيفة" },
+    { question: "من هو المؤسس الفعلي للجهاد الإسلامي في فلسطين؟", options: ["أحمد ياسين", "رمضان شلح", "إسماعيل هنية", "خالد مشعل"], answer: "رمضان شلح" },
+    { question: "كم عدد الضحايا الفلسطينيين في الحرب الإسرائيلية على غزة عام 2014؟", options: ["2000", "4000", "5000", "7000"], answer: "2000" },
+    { question: "ما هو عدد المستوطنات الإسرائيلية في الضفة الغربية؟", options: ["200", "500", "300", "400"], answer: "400" },
+    { question: "متى تم إنشاء حماس كحركة مقاومة؟", options: ["1987", "1993", "2000", "2005"], answer: "1987" },
+    { question: "من هو الزعيم الفلسطيني الذي وقع على اتفاقية أوسلو؟", options: ["ياسر عرفات", "محمود عباس", "خليل الوزير", "أحمد قريع"], answer: "ياسر عرفات" },
+    { question: "ما هي فكرة حل الدولتين؟", options: ["دولة واحدة لكل الفلسطينيين", "دولتين لشعبين", "فلسطين كدولة واحدة", "إسرائيل كدولة يهودية"], answer: "دولتين لشعبين" },
+    { question: "متى نشبت الحرب الأهلية اللبنانية؟", options: ["1975", "1980", "1985", "1990"], answer: "1975" },
+    { question: "ما هو أثر الجدار الفاصل على الفلسطينيين؟", options: ["زيادة التنقل", "تقليل الانتهاكات", "تقييد الحركة", "تحسين الوضع الاقتصادي"], answer: "تقييد الحركة" },
+    { question: "من هو الكاتب الفلسطيني الذي حصل على جائزة نوبل؟", options: ["محمود درويش", "ياسر عرفات", "غسان كنفاني", "أحمد أبو سليم"], answer: "ياسر عرفات" },
+    { question: "ما هو اسم الاتفاق الذي تم التوصل إليه بين إسرائيل والفلسطينيين في 1993؟", options: ["اتفاق طابا", "اتفاق وادي عربة", "اتفاق أوسلو", "اتفاق مدريد"], answer: "اتفاق أوسلو" },
+    { question: "ما هي القضية الرئيسية في الصراع الفلسطيني الإسرائيلي؟", options: ["الحدود", "اللاجئون", "القدس", "كل ما سبق"], answer: "كل ما سبق" },
+    { question: "ما هو مفهوم 'الاستيطان' في السياق الفلسطيني؟", options: ["بناء مدن جديدة", "نقل السكان", "إنشاء مستوطنات إسرائيلية", "تطوير البنية التحتية"], answer: "إنشاء مستوطنات إسرائيلية" },
+    { question: "من هو المفاوض الفلسطيني الذي أجرى مفاوضات أوسلو؟", options: ["محمود عباس", "ياسر عرفات", "أحمد قريع", "سلام فياض"], answer: "محمود عباس" },
+    { question: "ما هو الصراع الذي حدث في عام 2014 بين حماس وإسرائيل؟", options: ["حرب غزة", "حرب لبنان", "انتفاضة الأقصى", "عملية الجرف الصامد"], answer: "عملية الجرف الصامد" },
+    { question: "متى أُعلن عن قيام دولة فلسطين؟", options: ["1988", "1993", "2000", "2005"], answer: "1988" },
+    { question: "ما هو أبرز معلم في القدس الشرقية الذي يشكل نقطة صراع؟", options: ["الكنيسة القيامة", "المسجد الأقصى", "حائط البراق", "كنيسة المهد"], answer: "المسجد الأقصى" },
+    { question: "ما هو اسم المنظمة التي تمثل الفلسطينيين في المحافل الدولية؟", options: ["منظمة التحرير الفلسطينية", "حماس", "فتح", "الجهاد الإسلامي"], answer: "منظمة التحرير الفلسطينية" },
+    { question: "ما هي الفترة الزمنية التي تعتبر نكبة فلسطين؟", options: ["1917-1948", "1947-1948", "1948-1967", "1967-1973"], answer: "1947-1948" },
+    { question: "متى بدأ الاحتلال الإسرائيلي للقدس الشرقية؟", options: ["1948", "1967", "1973", "1982"], answer: "1967" },
+    { question: "ما هي أهم أسباب النزاع الإسرائيلي الفلسطيني؟", options: ["الموارد الطبيعية", "الهوية الثقافية", "الأراضي المقدسة", "كل ما سبق"], answer: "كل ما سبق" },
+    { question: "ما هي أسماء أهم حركات المقاومة الفلسطينية؟", options: ["فتح، حماس، الجهاد الإسلامي", "فتح، الجبهة الشعبية، الجهاد الإسلامي", "حماس، الجبهة الشعبية، الشيوعية", "حماس، فتح، اليسار"], answer: "فتح، حماس، الجهاد الإسلامي" },
+    { question: "ما هو المسار الذي يسعى إليه الفلسطينيون في المحافل الدولية؟", options: ["الاستقلال", "السلام", "الاعتراف الدولي", "كل ما سبق"], answer: "كل ما سبق" },
+    { question: "ما هو السياق التاريخي لانتفاضة الأقصى؟", options: ["الاحتلال المستمر", "فشل المفاوضات", "الإجراءات الإسرائيلية", "كل ما سبق"], answer: "كل ما سبق" },
+    { question: "من هو الكاتب الذي اشتهر بشعره الوطني الفلسطيني؟", options: ["محمود درويش", "غسان كنفاني", "إسماعيل أبو البندورة", "أحمد الشقيري"], answer: "محمود درويش" },
+    { question: "ما هي العوامل التي أدت إلى فشل عملية السلام في الشرق الأوسط؟", options: ["التدخل الخارجي", "الانقسامات الداخلية", "المواقف المتصلبة", "كل ما سبق"], answer: "كل ما سبق" }
+];
+
+
+        let currentQuestionIndex = 0;
+        let score = 0;
+
+        function displayQuestion() {
+            const question = questions[currentQuestionIndex];
+            document.getElementById('question').innerText = question.question;
+            const optionsContainer = document.getElementById('options');
+            optionsContainer.innerHTML = '';
+
+            question.options.forEach(option => {
+                const button = document.createElement('button');
+                button.innerText = option;
+                button.classList.add('option');
+                button.onclick = () => selectOption(option);
+                optionsContainer.appendChild(button);
+            });
+        }
+
+        function selectOption(selectedOption) {
+            const question = questions[currentQuestionIndex];
+            if (selectedOption === question.answer) {
+                score++;
+            }
+            document.getElementById('nextButton').classList.remove('hidden');
+            document.getElementById('options').classList.add('hidden');
+        }
+
+        document.getElementById('nextButton').onclick = () => {
+            currentQuestionIndex++;
+            if (currentQuestionIndex < questions.length) {
+                displayQuestion();
+                document.getElementById('nextButton').classList.add('hidden');
+                document.getElementById('options').classList.remove('hidden');
+            } else {
+                showResult();
+            }
+        };
+
+        function showResult() {
+            document.getElementById('questionContainer').classList.add('hidden');
+            const resultContainer = document.getElementById('result');
+            resultContainer.classList.remove('hidden');
+            if (score > 40) {
+                resultContainer.innerText = `Bravo, vous avez gagné ! Votre score est ${score} sur ${questions.length}.`;
+                document.getElementById('nextLevelButton').classList.remove('hidden');
+            } else {
+                resultContainer.innerText = `Désolé, vous n'avez pas réussi. Votre score est ${score} sur ${questions.length}.`;
+                document.getElementById('retryButton').classList.remove('hidden');
+            }
+            document.getElementById('nextButton').classList.add('hidden');
+        }
+
+        // Fonction pour le bouton Réessayer
+        document.getElementById('retryButton').onclick = () => {
+            currentQuestionIndex = 0;
+            score = 0;
+            displayQuestion();
+            document.getElementById('result').classList.add('hidden');
+            document.getElementById('retryButton').classList.add('hidden');
+            document.getElementById('questionContainer').classList.remove('hidden');
+        };
+
+        // Fonction pour le bouton Passer au niveau suivant
+        document.getElementById('nextLevelButton').onclick = () => {
+            window.location.href = "niveau2.html"; // URL du niveau suivant
+        };
+
+        displayQuestion();
+    </script>
+</body>
+</html>

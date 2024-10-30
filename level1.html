@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Niveau 1 - Quiz sur l'Histoire du Prophète Mohamed</title>
+</head>
+
+    <style>
+    body {
+        font-family: Arial, sans-serif;
+        background-color: #f4f4f4;
+        color: #333;
+        margin: 0;
+        padding: 0;
+    }
+    .container {
+        max-width: 800px;
+        margin: 50px auto;
+        padding: 20px;
+        background: #fff;
+        border-radius: 8px;
+        box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+    }
+    h1 { text-align: center; color: #007BFF; }
+    h2 { margin-bottom: 20px; }
+    #options { display: flex; flex-direction: column; }
+    .option {
+        background: #007BFF;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        padding: 15px;
+        margin: 10px 0;
+        cursor: pointer;
+        transition: background 0.3s;
+    }
+    .option:hover { background: #0056b3; }
+    .hidden { display: none; }
+    #nextButton, #retryButton {
+        margin-top: 20px;
+        background: #17a2b8;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        padding: 10px 20px;
+        cursor: pointer;
+        transition: background 0.3s;
+    }
+    #nextButton:hover, #retryButton:hover { background: #138496; }
+    #result {
+        text-align: center;
+        font-size: 1.2em;
+        margin-top: 20px;
+    }
+
+</style>
+<body>
+    <div class="container">
+        <h1>المستوى الأول</h1>
+        <div id="questionContainer">
+            <h2 id="question"></h2>
+            <div id="options"></div>
+        </div>
+        <button id="nextButton" class="hidden">Suivant</button>
+        <div id="result" class="hidden"></div>
+        <button id="retryButton" class="hidden">Réessayer</button>
+        <li><a href="level2.html"> <button id="nextLevelButton" class="hidden">Passer au niveau suivant</button></a></li> 
+    </div>
+    <script>
+        const questions = [
+        { question: "ما هي عاصمة فلسطين؟", options: ["عمان", "القدس", "بيروت", "القاهرة"], answer: "القدس" },
+            { question: "أين تقع المسجد الأقصى؟", options: ["في القدس", "في الخليل", "في رام الله", "في غزة"], answer: "في القدس" },
+            { question: "متى تأسست منظمة التحرير الفلسطينية؟", options: ["1964", "1972", "1987", "1993"], answer: "1964" },
+            { question: "من كان أول رئيس لمنظمة التحرير الفلسطينية؟", options: ["ياسر عرفات", "محمود عباس", "أحمد الشقيري", "إسماعيل هنية"], answer: "ياسر عرفات" },
+            { question: "ما اسم العملة المستخدمة في فلسطين؟", options: ["الدينار", "الدولار", "الشيكل", "اليورو"], answer: "الشيكل" },
+            { question: "ما هو البحر الذي يحد قطاع غزة من الغرب؟", options: ["البحر الأحمر", "البحر الأبيض المتوسط", "البحر الأسود", "بحر قزوين"], answer: "البحر الأبيض المتوسط" },
+            { question: "متى تم إعلان دولة إسرائيل؟", options: ["1947", "1948", "1967", "1973"], answer: "1948" },
+            { question: "من كان أول رئيس للسلطة الوطنية الفلسطينية؟", options: ["ياسر عرفات", "محمود عباس", "سلام فياض", "إسماعيل هنية"], answer: "ياسر عرفات" },
+            { question: "أين تقع مدينة الخليل؟", options: ["في الضفة الغربية", "في قطاع غزة", "في القدس", "في الناصرة"], answer: "في الضفة الغربية" },
+            { question: "من هو مؤسس حركة حماس؟", options: ["يحيى السنوار", "أحمد ياسين", "إسماعيل هنية", "محمود الزهار"], answer: "أحمد ياسين" },
+            { question: "كم يبلغ عدد سكان قطاع غزة تقريبًا؟", options: ["1 مليون", "2 مليون", "3 مليون", "4 مليون"], answer: "2 مليون" },
+            { question: "من كان الرئيس الفلسطيني في عام 2006؟", options: ["محمود عباس", "ياسر عرفات", "إسماعيل هنية", "سلام فياض"], answer: "إسماعيل هنية" },
+            { question: "ما هي اللغة الرسمية في فلسطين؟", options: ["الإنجليزية", "العربية", "الفرنسية", "العبرية"], answer: "العربية" },
+            { question: "ما هو اسم المعبر الذي يربط بين غزة ومصر؟", options: ["معبر رفح", "معبر الكرامة", "معبر طابا", "معبر Allenby"], answer: "معبر رفح" },
+            { question: "ما هي ديانة الأغلبية في فلسطين؟", options: ["المسيحية", "اليهودية", "الإسلام", "البوذية"], answer: "الإسلام" },
+            { question: "متى تم توقيع اتفاقية أوسلو؟", options: ["1993", "1995", "1999", "2000"], answer: "1993" },
+            { question: "كم يبلغ عدد محافظات فلسطين؟", options: ["10", "11", "16", "12"], answer: "16" },
+            { question: "ما هي العملة التي كانت تُستخدم في فلسطين قبل الشيكل؟", options: ["الدينار الأردني", "الدولار الأمريكي", "الجنيه المصري", "الليرة السورية"], answer: "الدينار الأردني" },
+            { question: "من كان رئيس الوزراء الإسرائيلي خلال الانتفاضة الثانية؟", options: ["إيهود باراك", "أرئيل شارون", "شيمون بيريز", "بنيامين نتنياهو"], answer: "إيهود باراك" },
+            { question: "ما هو اسم الجبل الذي يقع عليه المسجد الأقصى؟", options: ["جبل الزيتون", "جبل النبيل", "جبل العاصي", "جبل الشيخ"], answer: "جبل النبيل" },
+            { question: "أين يوجد مخيم بلاطة للاجئين؟", options: ["في الخليل", "في نابلس", "في جنين", "في رام الله"], answer: "في نابلس" },
+            { question: "من هو شاعر المقاومة الفلسطينية الشهير؟", options: ["محمود درويش", "سميح القاسم", "توفيق زياد", "أمل دنقل"], answer: "محمود درويش" },
+            { question: "كم عدد الدول العربية التي تحيط بفلسطين؟", options: ["4", "5", "3", "6"], answer: "4" },
+            { question: "ما اسم الحزب السياسي الذي يقوده محمود عباس؟", options: ["حركة حماس", "الجبهة الشعبية", "فتح", "الجبهة الديمقراطية"], answer: "فتح" },
+            { question: "ما هو تاريخ احتلال القدس الشرقية؟", options: ["1948", "1967", "1973", "1982"], answer: "1967" },
+            { question: "ما هي أكبر مدينة في الضفة الغربية؟", options: ["نابلس", "الخليل", "رام الله", "بيت لحم"], answer: "بيت لحم" },
+            { question: "من كان مؤسس الجبهة الشعبية لتحرير فلسطين؟", options: ["جورج حبش", "ياسر عرفات", "أحمد الشقيري", "إسماعيل هنية"], answer: "جورج حبش" },
+            { question: "ما هو أول مسجد بُني في فلسطين؟", options: ["مسجد الأقصى", "مسجد الحرم", "مسجد قبة الصخرة", "مسجد الصالحين"], answer: "مسجد الأقصى" },
+            { question: "من هو الكاتب الفلسطيني صاحب رواية 'عائد إلى حيفا'؟", options: ["غسان كنفاني", "محمود درويش", "إبراهيم نصر الله", "توفيق زياد"], answer: "غسان كنفاني" },
+            { question: "ما اسم الميناء البحري الوحيد في غزة؟", options: ["ميناء الصيادين", "ميناء غزة", "ميناء حيفا", "ميناء الأسكندرية"], answer: "ميناء غزة" },
+            { question: "متى تأسست مدينة رام الله؟", options: ["1920", "1950", "1970", "1886"], answer: "1886" },
+            { question: "كم عدد سكان القدس؟",            options: ["500,000", "700,000", "1,000,000", "1,200,000"], answer: "500,000" },
+            { question: "من هو رئيس الوزراء الفلسطيني الحالي؟", options: ["ياسر عرفات", "محمود عباس", "محمد اشتية", "إسماعيل هنية"], answer: "محمد اشتية" },
+            { question: "ما هو اسم الجسر الذي يربط بين الضفة الغربية والأردن؟", options: ["جسر الملك حسين", "جسر دانيال", "جسر حيفا", "جسر الميمون"], answer: "جسر الملك حسين" },
+            { question: "ما هي أكبر مدينة في قطاع غزة؟", options: ["غزة", "خانيونس", "رفح", "دير البلح"], answer: "غزة" },
+            { question: "كم عدد الأقصى التي تتواجد في فلسطين؟", options: ["1", "2", "3", "4"], answer: "2" },
+            { question: "ما هو المهرجان الذي يقام في مدينة بيت لحم؟", options: ["مهرجان السلام", "مهرجان العيد", "مهرجان الميلاد", "مهرجان الربيع"], answer: "مهرجان الميلاد" },
+            { question: "من هو مؤسس دولة فلسطين؟", options: ["ياسر عرفات", "محمود عباس", "إسماعيل هنية", "أحمد الشقيري"], answer: "ياسر عرفات" },
+            { question: "ما هي أكبر مخيم للاجئين في فلسطين؟", options: ["مخيم عين الحلوة", "مخيم اليرموك", "مخيم بلاطة", "مخيم الشاطئ"], answer: "مخيم بلاطة" },
+            { question: "ما هو اسم الصحيفة اليومية الفلسطينية؟", options: ["القدس", "الأخبار", "الحياة الجديدة", "المستقبل"], answer: "الحياة الجديدة" },
+            { question: "ما هو المعلم السياحي الشهير في مدينة نابلس؟", options: ["قصر المفتي", "كنيسة المهد", "مسجد النصر", "مقام يوسف"], answer: "مقام يوسف" },
+            { question: "ما هو المعبر الذي يربط بين الضفة الغربية وقطاع غزة؟", options: ["معبر كرم أبو سالم", "معبر إيرز", "معبر الجلمة", "معبر الحاجز"], answer: "معبر الجلمة" },
+            { question: "ما هو اسم الطريق الذي يربط بين المدن الفلسطينية؟", options: ["الطريق السريع", "طريق 60", "طريق العروبة", "طريق القدس"], answer: "طريق 60" },
+            { question: "ما هي الشجرة الوطنية لفلسطين؟", options: ["شجرة الزيتون", "شجرة النخيل", "شجرة الكينا", "شجرة الصنوبر"], answer: "شجرة الزيتون" },
+            { question: "متى تم استشهاد ياسر عرفات؟", options: ["2002", "2004", "2000", "2006"], answer: "2004" },
+            { question: "ما هو اسم العيد الذي يحتفل به المسلمون في فلسطين؟", options: ["عيد الفطر", "عيد الأضحى", "عيد الميلاد", "عيد الربيع"], answer: "عيد الأضحى" },
+            { question: "ما هو اسم المعركة التي انتصرت فيها المقاومة الفلسطينية على الاحتلال؟", options: ["معركة الكرامة", "معركة رفح", "معركة الجليل", "معركة غزه"], answer: "معركة الكرامة" },
+            { question: "من هو الشاعر الفلسطيني الذي أسس اتحاد الكتاب الفلسطينيين؟", options: ["محمود درويش", "توفيق زياد", "سميح القاسم", "إبراهيم نصر الله"], answer: "محمود درويش" },
+            { question: "ما هو اسم الشارع الرئيسي في مدينة غزة؟", options: ["شارع الجلاء", "شارع اليرموك", "شارع عمر المختار", "شارع فلسطين"], answer: "شارع عمر المختار" },
+            { question: "كم عدد الأقصى في العالم؟", options: ["1", "2", "3", "4"], answer: "1" },
+            { question: "من هو الحاكم الفعلي للسلطة الوطنية الفلسطينية؟", options: ["محمود عباس", "ياسر عرفات", "سلام فياض", "أحمد الشقيري"], answer: "محمود عباس" },
+            { question: "ما هو الاسم الذي يُطلق على الفلسطينيين الذين يعيشون في الشتات؟", options: ["لاجئين", "مهاجرين", "مغتربين", "مواطنين"], answer: "لاجئين" },
+            { question: "ما هو اسم الشاعر الذي كتب قصيدة 'سأخون وطني'؟", options: ["محمود درويش", "غسان كنفاني", "أمل دنقل", "توفيق زياد"], answer: "محمود درويش" },
+            { question: "ما هو اسم المسجد الذي يُعتبر ثالث أقدس مكان في الإسلام؟", options: ["المسجد الحرام", "المسجد النبوي", "المسجد الأقصى", "مسجد قبة الصخرة"], answer: "المسجد الأقصى" },
+            { question: "متى حدثت الانتفاضة الأولى؟", options: ["1987", "1991", "1993", "1996"], answer: "1987" },
+            { question: "ما هي العاصمة الاقتصادية لفلسطين؟", options: ["القدس", "رام الله", "نابلس", "غزة"], answer: "نابلس" },
+            { question: "كم عدد السجون الإسرائيلية في فلسطين؟", options: ["50", "100", "200", "300"], answer: "50" },
+            { question: "ما هو اسم المعركة التي دارت في عام 1982؟", options: ["معركة العيد", "معركة صبرا وشاتيلا", "معركة غزوة بدر", "معركة الكرامة"], answer: "معركة صبرا وشاتيلا" },
+            { question: "من هو المؤلف الفلسطيني الذي كتب رواية 'عائد إلى حيفا'؟", options: ["غسان كنفاني", "محمود درويش", "إبراهيم نصر الله", "توفيق زياد"], answer: "غسان كنفاني" }
+        
+            
+        ];
+
+        let currentQuestionIndex = 0;
+        let score = 0;
+
+        function displayQuestion() {
+            const question = questions[currentQuestionIndex];
+            document.getElementById('question').innerText = question.question;
+            const optionsContainer = document.getElementById('options');
+            optionsContainer.innerHTML = '';
+
+            question.options.forEach(option => {
+                const button = document.createElement('button');
+                button.innerText = option;
+                button.classList.add('option');
+                button.onclick = () => selectOption(option);
+                optionsContainer.appendChild(button);
+            });
+        }
+
+        function selectOption(selectedOption) {
+            const question = questions[currentQuestionIndex];
+            if (selectedOption === question.answer) {
+                score++;
+            }
+            document.getElementById('nextButton').classList.remove('hidden');
+            document.getElementById('options').classList.add('hidden');
+        }
+
+        document.getElementById('nextButton').onclick = () => {
+            currentQuestionIndex++;
+            if (currentQuestionIndex < questions.length) {
+                displayQuestion();
+                document.getElementById('nextButton').classList.add('hidden');
+                document.getElementById('options').classList.remove('hidden');
+            } else {
+                showResult();
+            }
+        };
+
+        function showResult() {
+            document.getElementById('questionContainer').classList.add('hidden');
+            const resultContainer = document.getElementById('result');
+            resultContainer.classList.remove('hidden');
+            if (score > 40) {
+                resultContainer.innerText = `Bravo, vous avez gagné ! Votre score est ${score} sur ${questions.length}.`;
+                document.getElementById('nextLevelButton').classList.remove('hidden');
+            } else {
+                resultContainer.innerText = `Désolé, vous n'avez pas réussi. Votre score est ${score} sur ${questions.length}.`;
+                document.getElementById('retryButton').classList.remove('hidden');
+            }
+            document.getElementById('nextButton').classList.add('hidden');
+        }
+
+        // Fonction pour le bouton Réessayer
+        document.getElementById('retryButton').onclick = () => {
+            currentQuestionIndex = 0;
+            score = 0;
+            displayQuestion();
+            document.getElementById('result').classList.add('hidden');
+            document.getElementById('retryButton').classList.add('hidden');
+            document.getElementById('questionContainer').classList.remove('hidden');
+        };
+
+        // Fonction pour le bouton Passer au niveau suivant
+        document.getElementById('nextLevelButton').onclick = () => {
+            window.location.href = "niveau2.html"; // URL du niveau suivant
+        };
+
+        displayQuestion();
+    </script>
+</body>
+</html>
